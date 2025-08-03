@@ -1,46 +1,102 @@
-# [Linux] C Shell (csh) default uso equivalente: establecer el valor de una variable
+<!--
+Meta Description: # Default en C: Comprendiendo el Comportamiento por Defecto en Programación ## Sinopsis El término "default" en C se relaciona principalmente con la d...
+Meta Keywords: default, case, switch, bloque, una
+-->
 
-## Overview
-El comando `set` en C Shell (csh) se utiliza para establecer el valor de una variable de entorno o de shell. Esto permite a los usuarios personalizar su entorno de trabajo y gestionar variables que pueden ser utilizadas en scripts o en la línea de comandos.
+# Default en C: Comprendiendo el Comportamiento por Defecto en Programación
 
-## Usage
-La sintaxis básica del comando es la siguiente:
+## Sinopsis
+El término "default" en C se relaciona principalmente con la declaración de valores por defecto en estructuras de control, como los `switch` y en la inicialización de variables. Comprender cómo y cuándo se aplica el comportamiento por defecto es crucial para evitar errores comunes en la programación.
 
-```csh
-set [variable] = [valor]
+## Documentación
+### Propósito
+En el lenguaje C, "default" se utiliza en el contexto de las declaraciones `switch`, permitiendo especificar un bloque de código que se ejecuta cuando ninguna de las condiciones anteriores es verdadera. Esto proporciona una forma de manejar casos inesperados o no listados explícitamente.
+
+### Uso
+La sintaxis básica para utilizar `default` en una estructura `switch` es la siguiente:
+
+```c
+switch (expresión) {
+    case valor1:
+        // Código para valor1
+        break;
+    case valor2:
+        // Código para valor2
+        break;
+    default:
+        // Código por defecto
+}
 ```
 
-## Common Options
-- `-x`: Muestra el valor de la variable después de ser establecida.
-- `-e`: Permite establecer una variable de forma que no se pueda cambiar.
+El bloque de código bajo `default` se ejecutará si `expresión` no coincide con `valor1` ni con `valor2`. Es importante recordar que el bloque `default` es opcional; si se omite y no hay coincidencias, no se ejecutará nada.
 
-## Common Examples
-1. Establecer una variable simple:
-   ```csh
-   set nombre = "Juan"
-   ```
+### Detalles
+- El `default` se puede colocar en cualquier parte del bloque `switch`, aunque es común colocarlo al final.
+- Solo puede haber un bloque `default` por cada `switch`, a diferencia de los `case`, que pueden repetirse.
+- La ejecución de un bloque `switch` se interrumpe si se encuentra un `break`. Si se omite, la ejecución continuará en el siguiente `case` hasta encontrar un `break` o el final del bloque.
 
-2. Establecer una variable con un valor numérico:
-   ```csh
-   set edad = 30
-   ```
+## Ejemplos
+A continuación, se presentan algunos ejemplos básicos de cómo utilizar `default` en C:
 
-3. Establecer una variable de entorno:
-   ```csh
-   setenv PATH "/usr/local/bin:$PATH"
-   ```
+### Ejemplo 1: Uso básico de `default`
+```c
+#include <stdio.h>
 
-4. Mostrar el valor de una variable:
-   ```csh
-   echo $nombre
-   ```
+int main() {
+    int numero = 3;
 
-5. Usar la opción `-x` para mostrar el valor:
-   ```csh
-   set -x nombre = "Maria"
-   ```
+    switch (numero) {
+        case 1:
+            printf("Uno\n");
+            break;
+        case 2:
+            printf("Dos\n");
+            break;
+        default:
+            printf("Número no reconocido\n");
+    }
+    return 0;
+}
+```
+**Salida:**
+```
+Número no reconocido
+```
 
-## Tips
-- Recuerda usar `setenv` para establecer variables de entorno que deben ser accesibles por otros programas.
-- Utiliza `echo` para verificar el valor de las variables después de haberlas establecido.
-- Las variables en csh son sensibles a mayúsculas y minúsculas, así que ten cuidado al nombrarlas.
+### Ejemplo 2: `default` en múltiples casos
+```c
+#include <stdio.h>
+
+int main() {
+    char letra = 'B';
+
+    switch (letra) {
+        case 'A':
+        case 'E':
+        case 'I':
+        case 'O':
+        case 'U':
+            printf("Es una vocal\n");
+            break;
+        default:
+            printf("Es una consonante\n");
+    }
+    return 0;
+}
+```
+**Salida:**
+```
+Es una consonante
+```
+
+## Explicación
+### Errores Comunes
+- **Omisión del `break`**: Si olvidas incluir un `break` después de un `case`, la ejecución continuará en el siguiente bloque `case`, lo que puede llevar a resultados inesperados.
+- **Ubicación del `default`**: Aunque se puede colocar en cualquier lugar, es una buena práctica ponerlo al final para mejorar la legibilidad del código.
+
+### Notas Adicionales
+- El uso del `default` es una forma eficaz de manejar casos de error o condiciones no anticipadas.
+- Aunque el bloque `default` es opcional, incluirlo puede hacer que el código sea más robusto y fácil de mantener.
+
+## Resumen en una línea
+El `default` en C permite ejecutar un bloque de código dentro de una estructura `switch` cuando ninguna de las opciones especificadas se cumple, mejorando así la gestión de condiciones no anticipadas.

@@ -1,54 +1,79 @@
-# [Linux] C Shell (csh) while: Executa comandos repetidamente enquanto uma condição for verdadeira
+<!--
+Meta Description: # Estrutura de Repetição "while" em C: Entenda Seu Funcionamento ## Sinopse A estrutura de repetição "while" em C permite a execução de um bloco de có...
+Meta Keywords: condição, while, bloco, código, uma
+-->
 
-## Overview
-O comando `while` no C Shell (csh) é utilizado para executar um bloco de comandos repetidamente enquanto uma condição especificada for verdadeira. É uma ferramenta poderosa para automatizar tarefas que precisam ser realizadas várias vezes até que uma determinada condição seja atendida.
+# Estrutura de Repetição "while" em C: Entenda Seu Funcionamento
 
-## Usage
-A sintaxe básica do comando `while` é a seguinte:
+## Sinopse
+A estrutura de repetição "while" em C permite a execução de um bloco de código enquanto uma condição específica for verdadeira, oferecendo um controle eficaz sobre loops.
 
-```
-while ( condição ) 
-    comando1
-    comando2
-    ...
-end
-```
+## Documentação
+A instrução `while` em C é uma das principais estruturas de controle de fluxo. Seu propósito é repetir um conjunto de instruções enquanto a condição especificada permanecer verdadeira. A sintaxe básica da estrutura `while` é:
 
-## Common Options
-O comando `while` não possui opções específicas, mas a condição pode incluir expressões lógicas e variáveis que você deseja avaliar. Aqui estão algumas considerações:
-
-- **Condições**: Pode ser qualquer expressão que retorne verdadeiro ou falso.
-- **Comandos**: Qualquer comando válido pode ser executado dentro do bloco `while`.
-
-## Common Examples
-
-### Exemplo 1: Contar até 5
-```csh
-set i = 1
-while ( $i <= 5 )
-    echo "Número: $i"
-    @ i++
-end
+```c
+while (condição) {
+    // bloco de código a ser executado
+}
 ```
 
-### Exemplo 2: Ler entradas até uma condição
-```csh
-set input = ""
-while ( "$input" != "sair" )
-    echo "Digite algo (ou 'sair' para terminar):"
-    set input = $<
-end
-```
+### Propósito
+O `while` é frequentemente utilizado quando o número de iterações não é conhecido previamente e depende de uma condição que pode mudar durante a execução do programa.
 
-### Exemplo 3: Executar um comando até um arquivo existir
-```csh
-while ( ! -e "arquivo.txt" )
-    echo "Aguardando o arquivo 'arquivo.txt'..."
-    sleep 2
-end
-```
+### Uso
+1. **Inicialização da Condição**: Antes do loop, a condição deve ser inicializada.
+2. **Avaliação da Condição**: A condição é avaliada antes da execução do bloco de código. Se for verdadeira, o bloco é executado.
+3. **Modificação da Condição**: É essencial que a condição mude dentro do bloco para evitar loops infinitos.
 
-## Tips
-- **Cuidado com loops infinitos**: Sempre assegure-se de que a condição eventualmente se tornará falsa para evitar loops infinitos.
-- **Utilize `break`**: Você pode usar o comando `break` dentro do bloco `while` para sair do loop antes que a condição se torne falsa, se necessário.
-- **Teste suas condições**: Antes de implementar um loop `while`, teste suas condições em um ambiente controlado para garantir que funcionem como esperado.
+## Exemplos
+### Exemplo Básico
+```c
+#include <stdio.h>
+
+int main() {
+    int contador = 0;
+
+    while (contador < 5) {
+        printf("Contador: %d\n", contador);
+        contador++;
+    }
+
+    return 0;
+}
+```
+Neste exemplo, o programa imprime os valores de `contador` de 0 a 4.
+
+### Exemplo com Entrada do Usuário
+```c
+#include <stdio.h>
+
+int main() {
+    int numero;
+
+    printf("Digite um número positivo (0 para sair): ");
+    scanf("%d", &numero);
+
+    while (numero > 0) {
+        printf("Você digitou: %d\n", numero);
+        printf("Digite outro número positivo (0 para sair): ");
+        scanf("%d", &numero);
+    }
+
+    printf("Programa encerrado.\n");
+    return 0;
+}
+```
+Aqui, o programa continua solicitando números até que o usuário digite 0.
+
+## Explicação
+### Armadilhas Comuns
+- **Loops Infinitos**: Um dos erros mais comuns ao usar `while` é esquecer de modificar a condição dentro do loop. Isso pode resultar em um loop infinito, travando o programa.
+- **Condições de Saída**: Sempre verifique se a condição de saída é alcançável. Se a condição não for adequada, o loop pode não terminar como esperado.
+- **Uso de Variáveis**: Cuidado ao usar variáveis que são modificadas em outros locais do código, pois isso pode afetar a condição do `while`.
+
+### Notas Adicionais
+- O bloco de código dentro do `while` pode ser uma única instrução ou um bloco de instruções cercado por chaves `{}`.
+- É possível utilizar `break` e `continue` dentro de um loop `while` para controlar o fluxo de execução.
+
+## Resumo em Uma Linha
+A estrutura de repetição `while` em C permite executar um bloco de código enquanto uma condição especificada for verdadeira, sendo fundamental para o controle de loops.

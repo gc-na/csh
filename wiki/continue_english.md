@@ -1,83 +1,108 @@
-# [Unix] C Shell (csh) continue 用法等价: Resume execution of a loop
+<!--
+Meta Description: # Understanding the `continue` Statement in C Programming ## Synopsis The `continue` statement in C is a control flow statement used within loops to s...
+Meta Keywords: continue, loop, int, loops, iteration
+-->
 
-## Overview
-The `continue` command in C Shell (csh) is used within loops to skip the remaining commands in the current iteration and proceed to the next iteration of the loop. This is particularly useful when you want to bypass certain conditions without terminating the entire loop.
+# Understanding the `continue` Statement in C Programming
 
-## Usage
-The basic syntax of the `continue` command is as follows:
+## Synopsis
+The `continue` statement in C is a control flow statement used within loops to skip the current iteration and move to the next iteration, effectively allowing for more flexible loop management.
 
-```csh
-continue [n]
+## Documentation
+
+### Purpose
+The `continue` statement is designed to alter the flow of loops (`for`, `while`, and `do-while`) by skipping the rest of the code within the current loop iteration. When encountered, it causes the loop to immediately jump to the next iteration, bypassing any remaining statements in the loop body for that iteration.
+
+### Usage
+The `continue` statement can be used in `for`, `while`, and `do-while` loops. Its syntax is as follows:
+
+```c
+continue; // No condition needed, it applies to the current loop.
 ```
 
-Here, `n` is an optional argument that specifies how many levels of nested loops to continue. If `n` is not provided, it defaults to 1, meaning it will continue the innermost loop.
+When using `continue` in nested loops, you can also use labeled `continue` to specify which loop to continue:
 
-## Common Options
-- `n`: Specifies the number of nested loops to continue. If you have multiple nested loops, you can use this option to skip to the next iteration of a specific loop level.
-
-## Common Examples
-
-### Example 1: Basic usage in a loop
-In this example, the loop iterates through numbers 1 to 5, but skips the number 3.
-
-```csh
-foreach i (1 2 3 4 5)
-    if ($i == 3) then
-        continue
-    endif
-    echo $i
-end
-```
-**Output:**
-```
-1
-2
-4
-5
+```c
+outer_loop:
+for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
+        if (j == 5) {
+            continue outer_loop; // Skips to the next iteration of the outer loop
+        }
+        // Other logic
+    }
+}
 ```
 
-### Example 2: Continuing a nested loop
-Here’s an example with nested loops where we skip the inner loop when `j` is 2.
+### Details
+- **Control Flow**: `continue` simplifies loop control by removing the need for additional conditional checks to skip iterations.
+- **Scope**: The `continue` statement only affects the loop in which it is present. If labeled, it can affect the outer loop.
+- **Placement**: It can be placed anywhere within the loop's body, but its position determines which statements are skipped.
 
-```csh
-foreach i (1 2)
-    foreach j (1 2 3)
-        if ($j == 2) then
-            continue 2
-        endif
-        echo "$i $j"
-    end
-end
+## Examples
+
+### Example 1: Basic `continue` in a `for` loop
+```c
+#include <stdio.h>
+
+int main() {
+    for (int i = 0; i < 10; i++) {
+        if (i % 2 == 0) {
+            continue; // Skip even numbers
+        }
+        printf("%d ", i); // Print odd numbers only
+    }
+    return 0;
+}
 ```
-**Output:**
+**Output**: `1 3 5 7 9`
+
+### Example 2: `continue` in a `while` loop
+```c
+#include <stdio.h>
+
+int main() {
+    int i = 0;
+    while (i < 10) {
+        i++;
+        if (i == 5) {
+            continue; // Skip printing 5
+        }
+        printf("%d ", i);
+    }
+    return 0;
+}
 ```
-1 1
-1 3
-2 1
-2 3
+**Output**: `1 2 3 4 6 7 8 9 10`
+
+### Example 3: Labeled `continue`
+```c
+#include <stdio.h>
+
+int main() {
+    outer_loop:
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (j == 1) {
+                continue outer_loop; // Skip to the next iteration of the outer loop
+            }
+            printf("i=%d, j=%d\n", i, j);
+        }
+    }
+    return 0;
+}
+```
+**Output**:
+```
+i=0, j=0
+i=1, j=0
+i=2, j=0
 ```
 
-### Example 3: Using `continue` with a condition
-In this example, we only print even numbers from 1 to 10.
+## Explanation
+- **Common Pitfalls**: One common mistake is to forget that `continue` only affects the loop it is in. Placing `continue` in nested loops without labeling can lead to confusion about which loop is being continued.
+- **Infinite Loops**: If incorrectly placed within a loop that has no terminating condition, `continue` can lead to infinite loops. Always ensure that there is a condition that eventually breaks the loop.
+- **Clarity**: Overusing `continue` can reduce the readability of the code. Use it judiciously to maintain clarity.
 
-```csh
-foreach i (1 2 3 4 5 6 7 8 9 10)
-    if ($i % 2 != 0) then
-        continue
-    endif
-    echo $i
-end
-```
-**Output:**
-```
-2
-4
-6
-8
-10
-```
-
-## Tips
-- Use `continue` to make your loops cleaner by avoiding deeply nested `if` statements.
-- Always ensure that the condition for `continue` is clearly defined to avoid skipping unintended iterations.
-- When using nested loops, specify the correct level with `n` to avoid confusion about which loop is being continued.
+## One Line Summary
+The `continue` statement in C allows for skipping the rest of the current iteration in loops, enhancing control over loop execution.
