@@ -1,44 +1,84 @@
-# [Linux] C Shell (csh) time uso: Mide el tiempo de ejecución de comandos
+<!--
+Meta Description: # Manejo del Tiempo en C: Funciones y Usos ## Sinopsis El manejo del tiempo en C es fundamental para el desarrollo de aplicaciones que requieren tempo...
+Meta Keywords: tiempo, time_t, time, funciones, que
+-->
 
-## Overview
-El comando `time` en C Shell (csh) se utiliza para medir el tiempo que tarda en ejecutarse un comando específico. Proporciona información sobre el tiempo real, el tiempo de usuario y el tiempo de sistema, lo que permite a los usuarios evaluar el rendimiento de sus scripts o comandos.
+# Manejo del Tiempo en C: Funciones y Usos
 
-## Usage
-La sintaxis básica del comando `time` es la siguiente:
+## Sinopsis
+El manejo del tiempo en C es fundamental para el desarrollo de aplicaciones que requieren temporización, cronometraje o gestión de intervalos. Este artículo se enfoca en las funciones proporcionadas por la biblioteca estándar de C para trabajar con fechas y horas.
 
-```csh
-time [opciones] [argumentos]
+## Documentación
+En C, el tiempo se maneja principalmente a través de la biblioteca `<time.h>`, que proporciona funciones y tipos para trabajar con la fecha y la hora. La estructura más utilizada es `time_t`, que representa el tiempo en segundos desde el 1 de enero de 1970 (Epoch). 
+
+### Funciones Principales:
+1. **`time()`**: Devuelve el tiempo actual en segundos desde Epoch.
+   - **Prototipo**: `time_t time(time_t *timer);`
+   - **Uso**: Si se pasa un puntero a `time_t`, se almacena el tiempo actual en esa dirección.
+
+2. **`localtime()`**: Convierte un valor de `time_t` a una estructura `tm` que representa la hora local.
+   - **Prototipo**: `struct tm *localtime(const time_t *timer);`
+
+3. **`strftime()`**: Formatea la hora y fecha en una cadena de caracteres.
+   - **Prototipo**: `size_t strftime(char *str, size_t max, const char *format, const struct tm *tm);`
+
+4. **`difftime()`**: Calcula la diferencia en segundos entre dos valores de `time_t`.
+   - **Prototipo**: `double difftime(time_t end, time_t beginning);`
+
+5. **`clock()`**: Devuelve el tiempo de CPU utilizado por el programa.
+   - **Prototipo**: `clock_t clock(void);`
+
+## Ejemplos
+### Ejemplo 1: Obtener el tiempo actual
+```c
+#include <stdio.h>
+#include <time.h>
+
+int main() {
+    time_t t = time(NULL);
+    printf("Tiempo actual: %ld\n", t);
+    return 0;
+}
 ```
 
-## Common Options
-- `-p`: Muestra el tiempo en un formato más legible.
-- `-o archivo`: Redirige la salida del tiempo a un archivo especificado.
-- `-v`: Muestra información detallada sobre el tiempo de ejecución.
+### Ejemplo 2: Convertir tiempo a formato legible
+```c
+#include <stdio.h>
+#include <time.h>
 
-## Common Examples
-Aquí hay algunos ejemplos prácticos del uso del comando `time`:
+int main() {
+    time_t t = time(NULL);
+    struct tm *tm_info = localtime(&t);
+    char buffer[26];
+    strftime(buffer, 26, "%Y-%m-%d %H:%M:%S", tm_info);
+    printf("Fecha y hora local: %s\n", buffer);
+    return 0;
+}
+```
 
-1. Medir el tiempo de ejecución de un comando simple:
-   ```csh
-   time ls -l
-   ```
+### Ejemplo 3: Calcular diferencia de tiempo
+```c
+#include <stdio.h>
+#include <time.h>
 
-2. Guardar la salida del tiempo en un archivo:
-   ```csh
-   time -o tiempo.txt sleep 5
-   ```
+int main() {
+    time_t start, end;
+    start = time(NULL);
+    // Simular un retardo
+    sleep(2);
+    end = time(NULL);
+    double seconds = difftime(end, start);
+    printf("Diferencia de tiempo: %.f segundos\n", seconds);
+    return 0;
+}
+```
 
-3. Usar la opción detallada para obtener más información:
-   ```csh
-   time -v find / -name "*.txt"
-   ```
+## Explicación
+Al trabajar con funciones de tiempo en C, es importante tener en cuenta lo siguiente:
 
-4. Medir el tiempo de un script:
-   ```csh
-   time ./mi_script.csh
-   ```
+- **Zonas Horarias**: Las funciones que manejan el tiempo local dependen de la configuración del sistema y la zona horaria.
+- **Precision**: `time_t` tiene una precisión limitada a segundos. Para cálculos más precisos, se puede usar `clock()` que mide el tiempo de CPU en "ticks".
+- **Formato de Fecha**: Al utilizar `strftime()`, el formato debe seguir las especificaciones adecuadas para evitar errores en la presentación de la fecha y hora.
 
-## Tips
-- Utiliza la opción `-p` si prefieres un formato de salida más limpio y fácil de leer.
-- Redirigir la salida a un archivo puede ser útil para realizar un seguimiento de múltiples ejecuciones.
-- Experimenta con diferentes comandos para entender mejor su rendimiento y optimizar tus scripts.
+## Resumen en una Línea
+El manejo del tiempo en C se realiza principalmente a través de la biblioteca `<time.h>`, permitiendo acceder y manipular fechas y horas de forma efectiva.

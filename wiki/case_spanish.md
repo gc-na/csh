@@ -1,71 +1,101 @@
-# [Linux] C Shell (csh) case <Uso equivalente en español>: Evaluar patrones de cadena
+<!--
+Meta Description: # Uso de la instrucción "case" en el lenguaje C: Estructuras de Control en Programación ## Sinopsis La instrucción `case` en C se utiliza como parte d...
+Meta Keywords: case, una, break, código, que
+-->
 
-## Overview
-El comando `case` en C Shell (csh) se utiliza para evaluar patrones de cadena y ejecutar diferentes bloques de código según el patrón que coincida. Es similar a una estructura de control de flujo que permite manejar múltiples condiciones de manera más organizada.
+# Uso de la instrucción "case" en el lenguaje C: Estructuras de Control en Programación
 
-## Usage
-La sintaxis básica del comando `case` es la siguiente:
+## Sinopsis
+La instrucción `case` en C se utiliza como parte de la estructura de control `switch`, permitiendo ejecutar diferentes bloques de código basados en el valor de una variable.
 
-```csh
-case expresión in
-    patrón1) comandos1 ;;
-    patrón2) comandos2 ;;
-    ...
-    *) comandos_por_defecto ;;
-esac
-```
+## Documentación
+### Propósito
+La instrucción `case` permite al programador dirigir el flujo de ejecución del programa a diferentes secciones de código según el valor de una expresión. Se utiliza principalmente en la estructura `switch`, proporcionando una forma más clara y concisa de manejar múltiples condiciones en comparación con la utilización de múltiples instrucciones `if`.
 
-## Common Options
-El comando `case` no tiene opciones específicas, pero se basa en patrones que puedes definir. Los patrones pueden incluir caracteres comodín como `*` y `?`.
+### Uso
+La sintaxis básica de la instrucción `case` es la siguiente:
 
-## Common Examples
-
-### Ejemplo 1: Evaluar un número
-```csh
-set num = 2
-switch ($num)
-    case 1:
-        echo "El número es uno."
-        breaksw
-    case 2:
-        echo "El número es dos."
-        breaksw
+```c
+switch (expresión) {
+    case constante1:
+        // código a ejecutar si expresión == constante1
+        break;
+    case constante2:
+        // código a ejecutar si expresión == constante2
+        break;
     default:
-        echo "Número no reconocido."
-endsw
+        // código a ejecutar si ninguna constante coincide
+}
 ```
 
-### Ejemplo 2: Evaluar una cadena
-```csh
-set color = "rojo"
-switch ($color)
-    case "rojo":
-        echo "El color es rojo."
-        breaksw
-    case "verde":
-        echo "El color es verde."
-        breaksw
-    default:
-        echo "Color no reconocido."
-endsw
+- **expresión**: Es la variable que se evalúa y puede ser de tipo entero, carácter o enumeración.
+- **constante**: Es el valor contra el que se compara la expresión.
+- **break**: Se utiliza para salir del bloque `switch` una vez que se ejecuta el código correspondiente a un `case`. Si se omite, la ejecución continuará en el siguiente `case` (comportamiento conocido como "fall-through").
+- **default**: Es opcional y se ejecuta si ninguna de las constantes coincide con el valor de la expresión.
+
+### Detalles
+- La instrucción `case` permite agrupar múltiples valores que deben llevar a la misma ejecución de un bloque de código.
+- La comparación es estrictamente igual, lo que significa que el tipo de dato y el valor deben coincidir.
+- El bloque de código dentro de un `case` puede contener múltiples instrucciones, y se puede omitir el `break` si se desea un comportamiento de "fall-through".
+
+## Ejemplos
+### Ejemplo Básico
+```c
+#include <stdio.h>
+
+int main() {
+    int dia = 3;
+
+    switch (dia) {
+        case 1:
+            printf("Es lunes\n");
+            break;
+        case 2:
+            printf("Es martes\n");
+            break;
+        case 3:
+            printf("Es miércoles\n");
+            break;
+        default:
+            printf("No es un día de la semana válido\n");
+    }
+
+    return 0;
+}
 ```
 
-### Ejemplo 3: Usar comodines
-```csh
-set archivo = "documento.txt"
-switch ($archivo)
-    case "*.txt":
-        echo "Es un archivo de texto."
-        breaksw
-    case "*.jpg":
-        echo "Es una imagen JPEG."
-        breaksw
-    default:
-        echo "Tipo de archivo no reconocido."
-endsw
+### Agrupación de Casos
+```c
+#include <stdio.h>
+
+int main() {
+    char letra = 'A';
+
+    switch (letra) {
+        case 'A':
+        case 'E':
+        case 'I':
+        case 'O':
+        case 'U':
+            printf("Es una vocal\n");
+            break;
+        default:
+            printf("Es una consonante\n");
+    }
+
+    return 0;
+}
 ```
 
-## Tips
-- Utiliza `breaksw` para salir de la estructura `switch` una vez que se haya ejecutado un bloque de comandos.
-- Recuerda que los patrones son evaluados en orden, por lo que el orden de los casos puede afectar el resultado.
-- Los comodines como `*` y `?` pueden ser muy útiles para hacer coincidir varios patrones con una sola línea de código.
+## Explicación
+### Errores Comunes
+- **Omitir el `break`**: Si olvidas incluir el `break`, la ejecución continuará en el siguiente `case`, lo que podría no ser el comportamiento deseado.
+- **Usar tipos incompatibles**: Asegúrate de que el tipo de la expresión en el `switch` coincide con los tipos de las constantes en los `case`.
+- **No usar `default`**: Aunque es opcional, incluir un `default` es una buena práctica para manejar casos no previstos.
+
+### Notas Adicionales
+- La instrucción `switch` es más eficiente que múltiples `if` cuando se trata de evaluar una sola variable contra múltiples valores.
+- No se pueden usar expresiones complejas o rangos en los `case`; cada `case` debe ser un valor constante.
+
+## Resumen en una línea
+La instrucción `case` en C permite dirigir el flujo de ejecución a diferentes bloques de código en función del valor de una variable, optimizando así las decisiones en la programación.

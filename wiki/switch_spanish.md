@@ -1,85 +1,99 @@
-# [Linux] C Shell (csh) switch uso: Cambiar entre opciones de un comando
+<!--
+Meta Description: # Uso del comando switch en C: Guía completa y ejemplos ## Sinopsis El comando `switch` en C es una declaración de control de flujo que permite la eje...
+Meta Keywords: case, switch, número, expresión, break
+-->
 
-## Overview
-El comando `switch` en C Shell (csh) se utiliza para realizar selecciones condicionales en scripts. Permite evaluar una expresión y ejecutar diferentes bloques de código según el valor de esa expresión.
+# Uso del comando switch en C: Guía completa y ejemplos
 
-## Usage
-La sintaxis básica del comando `switch` es la siguiente:
+## Sinopsis
+El comando `switch` en C es una declaración de control de flujo que permite la ejecución de diferentes bloques de código basándose en el valor de una expresión. Es una alternativa más organizada y legible a múltiples declaraciones `if-else`.
 
-```csh
-switch (expresión)
-    case patrón1:
-        # comandos a ejecutar si la expresión coincide con patrón1
-        breaksw
-    case patrón2:
-        # comandos a ejecutar si la expresión coincide con patrón2
-        breaksw
+## Documentación
+El `switch` se utiliza para simplificar la toma de decisiones en programas de C. Su estructura básica permite evaluar una variable y ejecutar diferentes secciones de código según el valor de esa variable.
+
+### Sintaxis
+```c
+switch (expresión) {
+    case constante1:
+        // Código a ejecutar si expresión == constante1
+        break;
+    case constante2:
+        // Código a ejecutar si expresión == constante2
+        break;
+    // ...
     default:
-        # comandos a ejecutar si no hay coincidencias
-        breaksw
-endsw
+        // Código a ejecutar si ninguna de las constantes coincide
+}
 ```
 
-## Common Options
-El comando `switch` no tiene opciones específicas, pero se utilizan patrones en las cláusulas `case` para determinar las coincidencias. Aquí hay algunas consideraciones sobre los patrones:
+### Componentes
+- **expresión**: Es la variable o expresión que se evalúa. Debe ser de un tipo entero o un tipo que pueda ser convertido a entero.
+- **case**: Cada `case` representa un posible valor de la expresión. Si se encuentra un caso que coincide, se ejecuta el código asociado.
+- **break**: Se utiliza para salir del `switch`. Sin él, el flujo de ejecución continuará en el siguiente `case`, lo que puede llevar a resultados inesperados.
+- **default**: Es opcional y se ejecuta si ninguna de las constantes coincide con la expresión.
 
-- `*`: Coincide con cualquier cadena.
-- `?`: Coincide con un solo carácter.
-- `[abc]`: Coincide con cualquier carácter dentro de los corchetes.
+## Ejemplos
+### Ejemplo 1: Uso básico de switch
+```c
+#include <stdio.h>
 
-## Common Examples
+int main() {
+    int numero = 2;
 
-### Ejemplo 1: Selección simple
-```csh
-set variable = "manzana"
-switch ($variable)
-    case "manzana":
-        echo "Es una manzana."
-        breaksw
-    case "naranja":
-        echo "Es una naranja."
-        breaksw
-    default:
-        echo "No es ni una manzana ni una naranja."
-        breaksw
-endsw
+    switch (numero) {
+        case 1:
+            printf("Número uno\n");
+            break;
+        case 2:
+            printf("Número dos\n");
+            break;
+        case 3:
+            printf("Número tres\n");
+            break;
+        default:
+            printf("Número no reconocido\n");
+    }
+
+    return 0;
+}
 ```
 
-### Ejemplo 2: Uso de patrones
-```csh
-set archivo = "documento.txt"
-switch ($archivo)
-    case "*.txt":
-        echo "Es un archivo de texto."
-        breaksw
-    case "*.jpg":
-        echo "Es una imagen JPG."
-        breaksw
-    default:
-        echo "Tipo de archivo desconocido."
-        breaksw
-endsw
+### Ejemplo 2: Sin usar break
+```c
+#include <stdio.h>
+
+int main() {
+    int numero = 2;
+
+    switch (numero) {
+        case 1:
+            printf("Número uno\n");
+        case 2:
+            printf("Número dos\n");
+        case 3:
+            printf("Número tres\n");
+        default:
+            printf("Número no reconocido\n");
+    }
+
+    return 0;
+}
+```
+**Salida:**
+```
+Número dos
+Número tres
+Número no reconocido
 ```
 
-### Ejemplo 3: Múltiples coincidencias
-```csh
-set dia = "lunes"
-switch ($dia)
-    case "lunes":
-    case "martes":
-        echo "Es un día de la semana laboral."
-        breaksw
-    case "sábado":
-    case "domingo":
-        echo "Es un día del fin de semana."
-        breaksw
-    default:
-        echo "Día no reconocido."
-        breaksw
-endsw
-```
+## Explicación
+### Errores Comunes
+- **Olvidar el break**: Uno de los errores más comunes es olvidar la instrucción `break`, lo que puede llevar a la ejecución de múltiples bloques de código.
+- **Uso de tipos incorrectos**: La expresión dentro del `switch` debe ser de un tipo que pueda ser evaluado como entero, como `int`, `char`, o enumeraciones. Usar tipos no compatibles generará errores de compilación.
 
-## Tips
-- Asegúrate de usar `breaksw` al final de cada caso para evitar que se ejecuten las instrucciones de los siguientes casos.
-- Utiliza patrones adecuados para hacer coincidir múltiples valores de manera efectiva.
-- Mantén el código dentro de cada caso claro y conciso para mejorar la legibilidad.
+### Notas Adicionales
+- El `switch` no admite rangos de valores, solo puede evaluar constantes individuales.
+- Se pueden usar expresiones en `case`, pero deben ser evaluadas en tiempo de compilación.
+
+## Resumen en una línea
+El comando `switch` en C permite seleccionar y ejecutar diferentes bloques de código de manera eficiente según el valor de una expresión.

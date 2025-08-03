@@ -1,89 +1,67 @@
-# [Linux] C Shell (csh) continue Verwendung: Fortsetzung einer Schleife
+<!--
+Meta Description: # Das Schlüsselwort "continue" in C: Verwendung und Beispiele ## Zusammenfassung Das Schlüsselwort "continue" in der Programmiersprache C wird verwend...
+Meta Keywords: continue, schleife, der, das, die
+-->
 
-## Übersicht
-Der Befehl `continue` wird in C Shell (csh) verwendet, um die aktuelle Iteration einer Schleife zu beenden und mit der nächsten Iteration fortzufahren. Dies ist besonders nützlich, wenn bestimmte Bedingungen erfüllt sind und der Rest des Schleifenblocks übersprungen werden soll.
+# Das Schlüsselwort "continue" in C: Verwendung und Beispiele
 
-## Verwendung
-Die grundlegende Syntax des Befehls lautet:
+## Zusammenfassung
+Das Schlüsselwort "continue" in der Programmiersprache C wird verwendet, um die aktuelle Iteration einer Schleife zu überspringen und direkt zur nächsten Iteration überzugehen.
 
-```
-continue [options]
-```
+## Dokumentation
+Das "continue"-Statement ist ein Steuerfluss-Statement in C, das in Schleifen (for, while, do-while) eingesetzt wird. Es ermöglicht es einem Programmierer, bestimmte Bedingungen zu prüfen und, falls diese erfüllt sind, die restlichen Anweisungen der aktuellen Schleifeniteration zu überspringen. Stattdessen wird der Kontrollfluss zum Beginn der nächsten Iteration der Schleife weitergeleitet.
 
-## Häufige Optionen
-Der Befehl `continue` hat keine speziellen Optionen, die häufig verwendet werden. Er wird einfach in einer Schleife eingesetzt, um die Ausführung zu steuern.
+### Verwendung
+Das "continue"-Statement kann in verschiedenen Schleifen verwendet werden:
+- In einer `for`-Schleife: überspringt die restlichen Anweisungen in der aktuellen Iteration und springt zur nächsten Iteration.
+- In einer `while`- oder `do-while`-Schleife: überspringt ebenfalls die aktuelle Iteration, wenn es aufgerufen wird.
 
-## Häufige Beispiele
-
-### Beispiel 1: Einfache Schleife mit continue
-In diesem Beispiel wird die Schleife durch die Zahlen 1 bis 5 iteriert, und die Zahl 3 wird übersprungen.
-
-```csh
-foreach i (1 2 3 4 5)
-    if ($i == 3) then
-        continue
-    endif
-    echo $i
-end
+### Syntax
+```c
+continue; // in der Schleife
 ```
 
-**Ausgabe:**
-```
-1
-2
-4
-5
-```
+## Beispiele
 
-### Beispiel 2: Schleife mit einer Bedingung
-Hier wird eine Schleife verwendet, um nur gerade Zahlen auszugeben.
+### Beispiel 1: Verwendung in einer for-Schleife
+```c
+#include <stdio.h>
 
-```csh
-foreach i (1 2 3 4 5 6 7 8 9 10)
-    if ($i % 2 != 0) then
-        continue
-    endif
-    echo $i
-end
+int main() {
+    for (int i = 0; i < 10; i++) {
+        if (i % 2 == 0) {
+            continue; // überspringt die Ausgabe für gerade Zahlen
+        }
+        printf("%d ", i); // gibt nur ungerade Zahlen aus
+    }
+    return 0;
+}
 ```
+**Ausgabe:** `1 3 5 7 9`
 
-**Ausgabe:**
-```
-2
-4
-6
-8
-10
-```
+### Beispiel 2: Verwendung in einer while-Schleife
+```c
+#include <stdio.h>
 
-### Beispiel 3: Verwendung in einer while-Schleife
-In diesem Beispiel wird `continue` in einer while-Schleife verwendet, um bestimmte Werte zu überspringen.
-
-```csh
-set i = 0
-while ($i < 10)
-    @ i++
-    if ($i == 5) then
-        continue
-    endif
-    echo $i
-end
+int main() {
+    int i = 0;
+    while (i < 10) {
+        i++;
+        if (i % 3 == 0) {
+            continue; // überspringt die Ausgabe für Vielfache von 3
+        }
+        printf("%d ", i);
+    }
+    return 0;
+}
 ```
+**Ausgabe:** `1 2 4 5 7 8 10`
 
-**Ausgabe:**
-```
-1
-2
-3
-4
-6
-7
-8
-9
-10
-```
+## Erklärung
+Das "continue"-Statement kann manchmal zu Verwirrung führen, insbesondere wenn es in verschachtelten Schleifen oder in Kombination mit anderen Kontrollflussanweisungen verwendet wird. Ein häufiger Fehler besteht darin, das "continue"-Statement in der falschen Schleife zu platzieren, was zu unerwartetem Verhalten führen kann. Hier sind einige wichtige Punkte zu beachten:
 
-## Tipps
-- Verwenden Sie `continue`, um den Code lesbarer zu machen, indem Sie unnötige Verschachtelungen vermeiden.
-- Achten Sie darauf, dass `continue` nur innerhalb von Schleifen verwendet werden kann; andernfalls wird ein Fehler angezeigt.
-- Nutzen Sie `continue` in Kombination mit Bedingungen, um die Kontrolle über den Fluss Ihrer Schleifen zu verbessern.
+- **Verschachtelte Schleifen:** Wenn "continue" in einer inneren Schleife verwendet wird, hat es nur Auswirkungen auf die innere Schleife und nicht auf die äußere.
+- **Lesbarkeit:** Übermäßiger Gebrauch von "continue" kann den Code schwerer lesbar machen. Es ist oft besser, die Logik so zu strukturieren, dass der Code klarer und einfacher zu verstehen ist.
+
+## Ein-Satz-Zusammenfassung
+Das "continue"-Statement in C ermöglicht das Überspringen der aktuellen Iteration einer Schleife und den sofortigen Übergang zur nächsten Iteration.
