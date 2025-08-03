@@ -1,62 +1,54 @@
-<!--
-Meta Description: # La función "free" en C: Liberando Memoria Dinámica ## Sinopsis La función `free` en C es utilizada para liberar la memoria previamente asignada diná...
-Meta Keywords: memoria, free, liberar, que, puntero
--->
+# [Linux] C Shell (csh) free uso: Muestra la memoria disponible en el sistema
 
-# La función "free" en C: Liberando Memoria Dinámica
+## Overview
+El comando `free` en C Shell (csh) se utiliza para mostrar la cantidad de memoria libre y utilizada en el sistema. Proporciona información sobre la memoria física, la memoria swap y los buffers utilizados por el kernel, lo que es útil para monitorear el rendimiento del sistema.
 
-## Sinopsis
-La función `free` en C es utilizada para liberar la memoria previamente asignada dinámicamente en el heap, ayudando a evitar fugas de memoria y optimizando el uso de los recursos.
+## Usage
+La sintaxis básica del comando `free` es la siguiente:
 
-## Documentación
-La función `free` es parte de la biblioteca estándar de C, definida en `<stdlib.h>`. Su propósito principal es liberar un bloque de memoria que ha sido previamente asignado con funciones como `malloc`, `calloc` o `realloc`.
-
-### Propósito
-Cuando se utiliza memoria dinámica, es crucial liberar esa memoria una vez que ya no es necesaria. Esto se logra mediante el uso de `free`, que desasigna el bloque de memoria y lo devuelve al sistema operativo.
-
-### Uso
-La sintaxis básica de la función `free` es la siguiente:
-
-```c
-void free(void *ptr);
+```csh
+free [opciones] [argumentos]
 ```
 
-- `ptr`: Un puntero al bloque de memoria que se desea liberar. Este puntero debe haber sido devuelto por una de las funciones de asignación de memoria dinámica.
+## Common Options
+- `-h`: Muestra la memoria en un formato legible para humanos (por ejemplo, en KB, MB).
+- `-m`: Muestra la memoria en megabytes.
+- `-g`: Muestra la memoria en gigabytes.
+- `-s [segundos]`: Actualiza la salida cada [segundos] especificados.
+- `-t`: Muestra un total de la memoria utilizada y libre.
 
-### Detalles
-- No se debe llamar a `free` con un puntero que no haya sido asignado dinámicamente, ya que esto puede provocar un comportamiento indefinido.
-- Después de llamar a `free`, el puntero sigue existiendo, pero apunta a una dirección de memoria que ya no es válida. Es recomendable asignar a `NULL` el puntero después de liberarlo para evitar accesos accidentales a memoria liberada.
-- Llamar a `free` múltiples veces en el mismo puntero también puede causar problemas; esto se conoce como "doble liberación".
+## Common Examples
+Aquí hay algunos ejemplos prácticos del uso del comando `free`:
 
-## Ejemplos
-### Ejemplo Básico
-```c
-#include <stdio.h>
-#include <stdlib.h>
+1. Mostrar la memoria en un formato legible para humanos:
+   ```csh
+   free -h
+   ```
 
-int main() {
-    int *array;
-    array = (int *)malloc(10 * sizeof(int)); // Asignación de memoria
-    if (array == NULL) {
-        fprintf(stderr, "Error de asignación de memoria\n");
-        return 1;
-    }
-    
-    // Uso de la memoria asignada
-    for (int i = 0; i < 10; i++) {
-        array[i] = i * 2;
-    }
+2. Mostrar la memoria en megabytes:
+   ```csh
+   free -m
+   ```
 
-    // Liberar la memoria
-    free(array);
-    array = NULL; // Evitar accesos posteriores
+3. Mostrar la memoria en gigabytes:
+   ```csh
+   free -g
+   ```
 
-    return 0;
-}
-```
+4. Actualizar la salida cada 5 segundos:
+   ```csh
+   free -s 5
+   ```
 
-## Explicación
-Uno de los errores más comunes es olvidar liberar la memoria asignada, lo que puede resultar en fugas de memoria. También es importante no intentar liberar memoria que no ha sido asignada dinámicamente o intentar liberar el mismo puntero más de una vez. Estos errores pueden dar lugar a comportamientos inesperados y dificultades en la depuración.
+5. Mostrar un total de la memoria utilizada y libre:
+   ```csh
+   free -t
+   ```
 
-## Resumen en una línea
-La función `free` en C es esencial para liberar memoria dinámica y evitar fugas de memoria, asegurando un uso eficiente de los recursos del sistema.
+## Tips
+- Utiliza la opción `-h` para obtener una salida más comprensible, especialmente en sistemas con mucha memoria.
+- Combina `free` con otros comandos como `watch` para monitorear la memoria en tiempo real:
+  ```csh
+  watch free -h
+  ```
+- Revisa la memoria swap junto con la memoria física para obtener una visión completa del estado del sistema.

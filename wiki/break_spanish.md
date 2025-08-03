@@ -1,92 +1,62 @@
-<!--
-Meta Description: # La instrucción "break" en C: Uso y Ejemplos ## Sinopsis La instrucción `break` en el lenguaje de programación C se utiliza para salir de bucles y es...
-Meta Keywords: break, switch, del, bucle, uso
--->
+# [Unix] C Shell (csh) break Uso: Terminar un bucle
 
-# La instrucción "break" en C: Uso y Ejemplos
+El comando `break` se utiliza en C Shell para salir de un bucle, interrumpiendo su ejecución y continuando con el siguiente comando después del bucle.
 
-## Sinopsis
-La instrucción `break` en el lenguaje de programación C se utiliza para salir de bucles y estructuras de control, facilitando el control del flujo del programa. Es fundamental para la manipulación eficiente de la ejecución de bucles `for`, `while`, `do-while` y estructuras de control `switch`.
+## Overview
+El comando `break` es fundamental en la programación de scripts en C Shell. Permite salir de bucles como `foreach`, `while` o `for` cuando se cumple una determinada condición, lo que facilita el control del flujo de ejecución en los scripts.
 
-## Documentación
-### Propósito
-La instrucción `break` tiene como principal objetivo interrumpir la ejecución de un bucle o una estructura de control. Cuando se ejecuta un `break`, el flujo del programa se transfiere a la siguiente línea de código fuera del bucle o de la estructura `switch`.
+## Usage
+La sintaxis básica del comando `break` es la siguiente:
 
-### Uso
-La sintaxis básica de `break` es la siguiente:
-
-```c
-break;
+```csh
+break [n]
 ```
 
-Se puede utilizar en el contexto de:
-- Bucles (`for`, `while`, `do-while`)
-- Estructuras de control (`switch`)
+Donde `n` es un número opcional que indica cuántos niveles de bucles se deben romper. Si no se especifica, se romperá el bucle más interno.
 
-### Detalles
-- En bucles, `break` detiene la ejecución del bucle inmediatamente, sin esperar a que se cumpla la condición de salida.
-- En el caso de `switch`, `break` evita que el flujo de ejecución continúe en el siguiente caso, cerrando así el bloque `switch`.
+## Common Options
+- `n`: Especifica el número de niveles de bucles que se deben interrumpir. Por defecto, se interrumpe solo el bucle más interno.
 
-## Ejemplos
-### Ejemplo 1: Uso de `break` en un bucle `for`
-```c
-#include <stdio.h>
+## Common Examples
 
-int main() {
-    for (int i = 0; i < 10; i++) {
-        if (i == 5) {
-            break; // Sale del bucle cuando i es igual a 5
-        }
-        printf("%d\n", i);
-    }
-    return 0;
-}
+### Ejemplo 1: Salir de un bucle foreach
+```csh
+foreach i (1 2 3 4 5)
+    if ($i == 3) then
+        break
+    endif
+    echo $i
+end
 ```
+Este script imprimirá `1`, `2` y luego saldrá del bucle al llegar a `3`.
 
-### Ejemplo 2: Uso de `break` en un bucle `while`
-```c
-#include <stdio.h>
-
-int main() {
-    int i = 0;
-    while (i < 10) {
-        if (i == 3) {
-            break; // Sale del bucle cuando i es igual a 3
-        }
-        printf("%d\n", i);
-        i++;
-    }
-    return 0;
-}
+### Ejemplo 2: Salir de un bucle while
+```csh
+set count = 1
+while ($count <= 5)
+    if ($count == 4) then
+        break
+    endif
+    echo $count
+    @ count++
+end
 ```
+Este script imprimirá `1`, `2`, `3` y saldrá del bucle al llegar a `4`.
 
-### Ejemplo 3: Uso de `break` en un `switch`
-```c
-#include <stdio.h>
-
-int main() {
-    int num = 2;
-    switch (num) {
-        case 1:
-            printf("Uno\n");
-            break; // Sale del switch
-        case 2:
-            printf("Dos\n");
-            break; // Sale del switch
-        default:
-            printf("Número no reconocido\n");
-    }
-    return 0;
-}
+### Ejemplo 3: Usar el argumento n para romper múltiples niveles
+```csh
+foreach i (1 2)
+    foreach j (1 2 3)
+        if ($j == 2) then
+            break 2
+        endif
+        echo "$i $j"
+    end
+end
 ```
+Este script imprimirá `1 1` y saldrá de ambos bucles al llegar a `j == 2`.
 
-## Explicación
-### Errores Comunes
-- **Uso de `break` fuera de un bucle o estructura `switch`:** Usar `break` fuera de su contexto adecuado generará un error de compilación.
-- **Omitir `break` en `switch`:** Si se olvida incluir `break`, el flujo de control continuará ejecutando el siguiente caso, lo que puede resultar en un comportamiento inesperado.
-
-### Notas Adicionales
-- En bucles anidados, `break` solo interrumpe el bucle más interno donde se aplica. Para salir de bucles externos, se pueden usar etiquetas con `goto`, aunque su uso no es recomendado debido a problemas de legibilidad.
-
-## Resumen en una Línea
-La instrucción `break` en C permite interrumpir la ejecución de bucles y estructuras `switch`, facilitando el control del flujo del programa.
+## Tips
+- Utiliza `break` cuando necesites salir de un bucle basado en una condición específica para evitar ejecuciones innecesarias.
+- Recuerda que `break` solo afecta al bucle más interno a menos que especifiques un número.
+- Combina `break` con condiciones `if` para un control más preciso del flujo de tu script.

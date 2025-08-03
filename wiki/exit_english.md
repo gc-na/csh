@@ -1,81 +1,53 @@
-<!--
-Meta Description: # Understanding the `exit` Function in C Programming: A Comprehensive Guide ## Synopsis The `exit` function in C is used to terminate a program and re...
-Meta Keywords: exit, program, function, cleanup, include
--->
+# [Linux] C Shell (csh) exit用法: Terminate a shell session
 
-# Understanding the `exit` Function in C Programming: A Comprehensive Guide
+## Overview
+The `exit` command in C Shell (csh) is used to terminate the current shell session. It can also return a specific exit status to the calling process, which can be useful for scripting and error handling.
 
-## Synopsis
-The `exit` function in C is used to terminate a program and return control to the operating system, allowing for a clean exit with a specified status code.
+## Usage
+The basic syntax of the `exit` command is as follows:
 
-## Documentation
-### Purpose
-The `exit` function is part of the C standard library, specifically declared in the `<stdlib.h>` header file. It is used to terminate a program immediately, regardless of where it is called within the program's execution flow. Additionally, it allows developers to specify an exit status code that indicates the outcome of the program's execution.
-
-### Usage
-To use the `exit` function, include the `<stdlib.h>` header and call the function with an integer argument. The syntax is as follows:
-
-```c
-#include <stdlib.h>
-
-void exit(int status);
+```csh
+exit [status]
 ```
 
-- **status**: This integer value is returned to the operating system upon program termination. By convention, a status code of `0` signifies successful execution, while any non-zero value indicates an error or abnormal termination.
+Where `status` is an optional numeric value that indicates the exit status.
 
-### Details
-- The `exit` function performs cleanup operations, such as flushing output buffers and calling functions registered with `atexit()`.
-- It does not return to the calling function; instead, it immediately ends the program.
-- The function can be called from anywhere in the program, including within signal handlers.
+## Common Options
+- `status`: A numeric value (0-255) that indicates the exit status. By convention, a status of `0` means success, while any non-zero value indicates an error or abnormal termination.
 
-## Examples
-### Example 1: Basic Usage
-```c
-#include <stdio.h>
-#include <stdlib.h>
+## Common Examples
 
-int main() {
-    printf("Program is running...\n");
-    exit(0); // Successful termination
-}
-```
+1. **Exit with default status (0)**:
+   ```csh
+   exit
+   ```
 
-### Example 2: Returning an Error Status
-```c
-#include <stdio.h>
-#include <stdlib.h>
+2. **Exit with a specific status**:
+   ```csh
+   exit 1
+   ```
 
-int main() {
-    printf("An error occurred!\n");
-    exit(1); // Indicating an error
-}
-```
+3. **Using exit in a script**:
+   ```csh
+   #!/bin/csh
+   echo "Running script..."
+   if (some_condition) then
+       echo "Condition met, exiting with status 0."
+       exit 0
+   else
+       echo "Condition not met, exiting with status 1."
+       exit 1
+   endif
+   ```
 
-### Example 3: Cleanup with `atexit()`
-```c
-#include <stdio.h>
-#include <stdlib.h>
+4. **Exiting from a nested shell**:
+   ```csh
+   csh
+   echo "Inside nested shell."
+   exit 2
+   ```
 
-void cleanup() {
-    printf("Performing cleanup...\n");
-}
-
-int main() {
-    atexit(cleanup); // Register cleanup function
-    printf("Program is running...\n");
-    exit(0); // Successful termination
-}
-```
-
-## Explanation
-### Common Pitfalls
-- **Ignoring Return Values**: Developers should check the return value of functions that may lead to an error and decide whether to call `exit` based on these checks.
-- **Unregistered Cleanup Functions**: If cleanup functions are not registered using `atexit()`, any necessary cleanup code will not be executed when `exit` is called.
-- **Multiple Calls**: Calling `exit` multiple times in a program does not lead to multiple exits; only the first call will take effect.
-
-### Additional Notes
-- Use `exit` judiciously; it can make debugging difficult by terminating the program unexpectedly.
-- For more controlled program flow, consider using return statements in `main` or other functions.
-
-## One Line Summary
-The `exit` function in C is used to terminate a program immediately while providing a status code that indicates success or failure.
+## Tips
+- Always use meaningful exit statuses in scripts to help with debugging and error tracking.
+- Remember that an exit status of `0` indicates success, while any non-zero value indicates an error.
+- If you don't specify a status, `exit` will default to `0`, which may not always be the desired behavior in scripts.

@@ -1,93 +1,57 @@
-<!--
-Meta Description: # Der "case"-Befehl in C: Effektive Nutzung von Switch-Anweisungen ## Synopsis Der "case"-Befehl in C ist eine zentrale Komponente von Switch-Anweisun...
-Meta Keywords: case, der, switch, break, code
--->
+# [Linux] C Shell (csh) case Verwendung: Mustervergleich von Variablen
 
-# Der "case"-Befehl in C: Effektive Nutzung von Switch-Anweisungen
+## Übersicht
+Der `case` Befehl in der C Shell (csh) wird verwendet, um Variablen mit verschiedenen Mustern zu vergleichen. Er ermöglicht es, unterschiedliche Aktionen basierend auf dem Wert einer Variablen auszuführen, ähnlich wie eine Switch-Anweisung in anderen Programmiersprachen.
 
-## Synopsis
-Der "case"-Befehl in C ist eine zentrale Komponente von Switch-Anweisungen, die eine elegante Möglichkeit bieten, mehrere Bedingungen zu prüfen und den entsprechenden Code auszuführen.
+## Verwendung
+Die grundlegende Syntax des `case` Befehls sieht wie folgt aus:
 
-## Dokumentation
-Der "case"-Befehl wird innerhalb einer `switch`-Anweisung verwendet, um verschiedene Werte eines Ausdrucks zu vergleichen. Er ermöglicht es, den Programmfluss basierend auf dem Wert einer Variablen zu steuern. Die allgemeine Syntax sieht wie folgt aus:
-
-```c
-switch (ausdruck) {
-    case wert1:
-        // Code für wert1
-        break;
-    case wert2:
-        // Code für wert2
-        break;
-    default:
-        // Code, wenn keiner der Werte zutrifft
-}
+```
+case [variable] in
+    [muster1]) [Befehle1];;
+    [muster2]) [Befehle2];;
+    ...
+esac
 ```
 
-### Zweck
-Der Hauptzweck des `case`-Befehls ist die Vereinfachung der Entscheidungsfindung in einem Programm, wenn mehrere Bedingungen zu überprüfen sind. Anstelle von mehreren `if`-`else if`-Anweisungen können Entwickler `switch`-Anweisungen verwenden, um den Code lesbarer und wartungsfreundlicher zu gestalten.
+## Häufige Optionen
+- `in`: Leitet die Musterdefinition ein.
+- `;;`: Beendet einen Musterblock.
+- `esac`: Beendet die `case` Anweisung.
 
-### Verwendung
-- Der Ausdruck in der `switch`-Anweisung sollte eine Ganzzahl, ein Zeichen oder ein enumerierter Typ sein.
-- Jeder `case`-Block kann optional mit einer `break`-Anweisung enden, um den Programmfluss aus der `switch`-Anweisung zu beenden.
-- Ein `default`-Block kann verwendet werden, um einen Code auszuführen, wenn keiner der angegebenen `case`-Werte zutrifft.
+## Häufige Beispiele
 
-## Beispiele
-
-### Beispiel 1: Grundlegende Verwendung
-```c
-#include <stdio.h>
-
-int main() {
-    int tag = 3;
-
-    switch (tag) {
-        case 1:
-            printf("Montag\n");
-            break;
-        case 2:
-            printf("Dienstag\n");
-            break;
-        case 3:
-            printf("Mittwoch\n");
-            break;
-        default:
-            printf("Ungültiger Tag\n");
-    }
-    return 0;
-}
+### Beispiel 1: Einfache Musterübereinstimmung
+```csh
+set var = "rot"
+case $var in
+    "rot") echo "Die Farbe ist rot";;
+    "blau") echo "Die Farbe ist blau";;
+    *) echo "Unbekannte Farbe";;
+esac
 ```
-In diesem Beispiel gibt das Programm "Mittwoch" aus, da der Wert von `tag` 3 ist.
 
-### Beispiel 2: Mehrere `case`-Werte
-```c
-#include <stdio.h>
-
-int main() {
-    char note = 'B';
-
-    switch (note) {
-        case 'A':
-        case 'B':
-        case 'C':
-            printf("Bestanden\n");
-            break;
-        case 'D':
-        case 'F':
-            printf("Nicht bestanden\n");
-            break;
-        default:
-            printf("Ungültige Note\n");
-    }
-    return 0;
-}
+### Beispiel 2: Mehrere Muster
+```csh
+set tier = "Hund"
+case $tier in
+    "Hund" | "Katze") echo "Es ist ein Haustier";;
+    "Vogel") echo "Es ist ein Vogel";;
+    *) echo "Unbekanntes Tier";;
+esac
 ```
-Hier wird "Bestanden" ausgegeben, da die Note 'B' einem der bestandenen Werte entspricht.
 
-## Erklärung
-Ein häufiger Fehler bei der Verwendung von `case`-Befehlen ist das Vergessen des `break`. Wenn `break` weggelassen wird, wird der Programmfluss fortgesetzt und die nachfolgenden `case`-Blöcke werden ebenfalls ausgeführt (dies wird als "Fallthrough" bezeichnet). Dies kann zu unerwarteten Ergebnissen führen. 
+### Beispiel 3: Verwendung von Platzhaltern
+```csh
+set datei = "bericht.txt"
+case $datei in
+    *.txt) echo "Es handelt sich um eine Textdatei";;
+    *.jpg) echo "Es handelt sich um ein Bild";;
+    *) echo "Unbekannte Dateityp";;
+esac
+```
 
-Ein weiterer Punkt ist, dass der Ausdruck der `switch`-Anweisung keine Bereiche oder Bedingungen annehmen kann; er muss einen oder mehrere spezifische Werte vergleichen.
-
-## Zusammenfassung in einem Satz
-Der `case`-Befehl in C ermöglicht es, durch eine `switch`-Anweisung den Programmfluss basierend auf dem Wert eines Ausdrucks zu steuern, damit der Code effizient und lesbar bleibt.
+## Tipps
+- Verwenden Sie Platzhalter (`*` und `?`), um flexiblere Muster zu erstellen.
+- Stellen Sie sicher, dass die Muster in der richtigen Reihenfolge angeordnet sind, da die erste Übereinstimmung verwendet wird.
+- Nutzen Sie `*)` als Standardfall, um unerwartete Werte zu behandeln.

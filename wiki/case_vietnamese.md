@@ -1,88 +1,82 @@
-<!--
-Meta Description: # Lệnh "case" trong ngôn ngữ lập trình C: Hướng dẫn và Ví dụ ## Tóm tắt Lệnh `case` trong ngôn ngữ lập trình C cho phép lập trình viên thực hiện lựa c...
-Meta Keywords: case, giá, trị, biến, trong
--->
+# [Hệ điều hành] C Shell (csh) case <Sử dụng tương đương>: Xử lý điều kiện
 
-# Lệnh "case" trong ngôn ngữ lập trình C: Hướng dẫn và Ví dụ
+## Tổng quan
+Lệnh `case` trong C Shell (csh) được sử dụng để thực hiện các phép kiểm tra điều kiện, cho phép thực thi các lệnh khác nhau dựa trên giá trị của một biến. Nó tương tự như cấu trúc `switch` trong các ngôn ngữ lập trình khác.
 
-## Tóm tắt
-Lệnh `case` trong ngôn ngữ lập trình C cho phép lập trình viên thực hiện lựa chọn giữa nhiều giá trị khác nhau của một biến trong cấu trúc điều kiện `switch`, giúp code trở nên gọn gàng và dễ đọc hơn.
-
-## Tài liệu
-### Mục đích
-Lệnh `case` được sử dụng trong cấu trúc `switch` để kiểm tra giá trị của một biến. Khi giá trị của biến khớp với một giá trị `case`, đoạn mã tương ứng với giá trị đó sẽ được thực thi.
-
-### Cú pháp
-Cú pháp cơ bản của lệnh `case` trong cấu trúc `switch` như sau:
-
-```c
-switch (biến) {
-    case giá_trị_1:
-        // đoạn mã thực thi khi biến == giá_trị_1
-        break;
-    case giá_trị_2:
-        // đoạn mã thực thi khi biến == giá_trị_2
-        break;
-    // Thêm nhiều case nếu cần
-    default:
-        // đoạn mã thực thi khi không khớp với bất kỳ giá trị nào
-}
+## Cú pháp
+Cú pháp cơ bản của lệnh `case` như sau:
+```csh
+case [biến] in
+    [mẫu1])
+        [lệnh1]
+        ;;
+    [mẫu2])
+        [lệnh2]
+        ;;
+    ...
+esac
 ```
 
-### Chi tiết
-- **biến**: Là biến mà bạn muốn kiểm tra giá trị.
-- **giá_trị**: Là các giá trị mà biến có thể khớp với nhau.
-- **break**: Dùng để ngăn việc tiếp tục thực thi các case sau khi đã tìm thấy case khớp. Nếu không có `break`, chương trình sẽ tiếp tục thực thi các case tiếp theo cho đến khi gặp `break` hoặc kết thúc switch.
-- **default**: Là tùy chọn, được sử dụng để xử lý trường hợp khi không có giá trị nào khớp với biến.
+## Các tùy chọn phổ biến
+- `in`: Chỉ định các mẫu mà biến sẽ được so sánh.
+- `;;`: Kết thúc một khối lệnh cho một mẫu.
+- `esac`: Kết thúc lệnh `case`.
 
-## Ví dụ
-### Ví dụ 1: Cấu trúc điều kiện đơn giản
-```c
-#include <stdio.h>
+## Ví dụ phổ biến
+Dưới đây là một số ví dụ thực tế về cách sử dụng lệnh `case`:
 
-int main() {
-    int x = 2;
-    switch (x) {
-        case 1:
-            printf("Giá trị là 1\n");
-            break;
-        case 2:
-            printf("Giá trị là 2\n");
-            break;
-        default:
-            printf("Giá trị không khớp\n");
-    }
-    return 0;
-}
+### Ví dụ 1: Kiểm tra biến
+```csh
+set fruit = "apple"
+case $fruit in
+    apple)
+        echo "Đây là một quả táo."
+        ;;
+    banana)
+        echo "Đây là một quả chuối."
+        ;;
+    *)
+        echo "Đây không phải là táo hay chuối."
+        ;;
+esac
 ```
 
-### Ví dụ 2: Sử dụng nhiều case
-```c
-#include <stdio.h>
-
-int main() {
-    char grade = 'B';
-    switch (grade) {
-        case 'A':
-        case 'B':
-        case 'C':
-            printf("Bạn đã đạt yêu cầu\n");
-            break;
-        case 'D':
-        case 'F':
-            printf("Bạn cần cải thiện\n");
-            break;
-        default:
-            printf("Điểm không hợp lệ\n");
-    }
-    return 0;
-}
+### Ví dụ 2: Phân loại số
+```csh
+set number = 3
+case $number in
+    1)
+        echo "Số là một."
+        ;;
+    2)
+        echo "Số là hai."
+        ;;
+    3)
+        echo "Số là ba."
+        ;;
+    *)
+        echo "Số không nằm trong phạm vi từ 1 đến 3."
+        ;;
+esac
 ```
 
-## Giải thích
-- **Các cạm bẫy thường gặp**: Một trong những điều cần lưu ý khi sử dụng lệnh `case` là quên thêm lệnh `break`, điều này có thể dẫn đến việc thực thi không mong muốn. 
-- **Giá trị không khớp**: Nếu không có giá trị nào khớp, chương trình sẽ thực thi đoạn mã trong `default`, nếu có.
-- **Giá trị của case**: Các giá trị trong case phải là hằng số, không thể là biến hoặc biểu thức.
+### Ví dụ 3: Kiểm tra phần mở rộng tệp
+```csh
+set file = "document.txt"
+case $file in
+    *.txt)
+        echo "Đây là một tệp văn bản."
+        ;;
+    *.jpg)
+        echo "Đây là một tệp hình ảnh."
+        ;;
+    *)
+        echo "Đây là một loại tệp khác."
+        ;;
+esac
+```
 
-## Tóm tắt một dòng
-Lệnh `case` trong C cho phép lựa chọn giữa nhiều giá trị của một biến trong cấu trúc `switch`, giúp lập trình viên tổ chức mã nguồn một cách hiệu quả và dễ hiểu.
+## Mẹo
+- Sử dụng dấu `*` trong mẫu để khớp với bất kỳ chuỗi nào, giúp linh hoạt hơn trong việc kiểm tra.
+- Đảm bảo rằng mỗi khối lệnh kết thúc bằng `;;` để tránh lỗi cú pháp.
+- Sử dụng `esac` để kết thúc lệnh `case`, tương tự như `end` trong một số ngôn ngữ lập trình khác.
